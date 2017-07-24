@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" href="vue_project/css/weui.css" />
+		<style>
+			.weui-search-bar {
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box">
+			<div :class="{'weui-search-bar_focusing':searchBar}" class="weui-search-bar" id="search_Bar">
+				<form class="weui-search-bar__form">
+					<div class="weui-search-bar__box">
+						<i class="weui-icon-search"></i>
+						<input id="search" v-model="searchNews" type="search" class="weui-search-bar__input" id="search_input" placeholder="搜索" />
+						<a v-range="{fn:clear,params:arg}" href="javascript:" @click="searchBar=true" class="weui-icon-clear" id="search_clear"></a>
+					</div>
+					<label @click="searchBar=true" for="search_input" class="weui-search-bar__label" id="search_text">
+            <i class="weui-icon-search"></i>
+            <span>{{arg}}</span>
+        </label>
+				</form>
+				<a href="javascript:" @click="searchBar=false" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
+			</div>
+		</div>
+	</body>
+	<script src="js/vue-2.0.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		Vue.directive("range", {
+			//绑定元素
+			bind: function(el, binding, vnode) {
+				el.addEventListener("click", function() {
+					//获得
+					console.log(binding.arg);
+
+					//传入指令值
+					console.log(binding.value.params);
+
+					//执行传指令clear的函数
+					binding.value.fn();
+
+					//聚焦输入框
+					document.getElementById("search").focus();
+				})
+			},
+			inserted: function(el) {
+				console.log("插入页面时");
+			},
+			updata: function(el, binding, vnode) {
+				console.log("更新页面时");
+			},
+			componentUpdataed: function(el) {
+				console.log("组件更新");
+			},
+			unbind: function(el) {
+				console.log("跟元素解除绑定时");
+			}
+
+		});
+		new Vue({
+			el: "#box",
+			data: {
+				searchNews: "",
+				searchBar: "false",
+				arg: "请输入"
+			},
+			methods: {
+				clear: function() {
+					this.searchNews = "";
+				}
+			}
+		})
+	</script>
+
+</html>
